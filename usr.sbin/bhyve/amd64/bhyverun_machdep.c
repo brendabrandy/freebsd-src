@@ -63,6 +63,7 @@ bhyve_init_config(void)
 	set_config_bool("acpi_tables_in_memory", true);
 	set_config_value("memory.size", "256M");
 	set_config_bool("x86.strictmsr", true);
+	set_config_bool("x86.verbosemsr", true);
 	set_config_value("lpc.fwcfg", "bhyve");
 }
 
@@ -74,7 +75,7 @@ bhyve_usage(int code)
 	progname = getprogname();
 
 	fprintf(stderr,
-	    "Usage: %s [-aCDeHhPSuWwxY]\n"
+	    "Usage: %s [-aCDeHhPqSuWwxY]\n"
 	    "       %*s [-c [[cpus=]numcpus][,sockets=n][,cores=n][,threads=n]]\n"
 	    "       %*s [-G port] [-k config_file] [-l lpc] [-m mem] [-o var=value]\n"
 	    "       %*s [-p vcpu:hostcpu] [-r file] [-s pci] [-U uuid] vmname\n"
@@ -96,6 +97,7 @@ bhyve_usage(int code)
 #ifdef BHYVE_SNAPSHOT
 	    "       -r: path to checkpoint file\n"
 #endif
+	    "       -q: disable verbose MSR print out\n"
 	    "       -S: guest memory cannot be swapped\n"
 	    "       -s: <slot,driver,configinfo> PCI slot config\n"
 	    "       -U: UUID\n"
@@ -116,9 +118,9 @@ bhyve_optparse(int argc, char **argv)
 	int c;
 
 #ifdef BHYVE_SNAPSHOT
-	optstr = "aehuwxACDHIPSWYk:f:o:p:G:c:s:m:l:K:U:r:";
+	optstr = "aehuwxACDHIPqSWYk:f:o:p:G:c:s:m:l:K:U:r:";
 #else
-	optstr = "aehuwxACDHIPSWYk:f:o:p:G:c:s:m:l:K:U:";
+	optstr = "aehuwxACDHIPqSWYk:f:o:p:G:c:s:m:l:K:U:";
 #endif
 	while ((c = getopt(argc, argv, optstr)) != -1) {
 		switch (c) {
@@ -223,6 +225,9 @@ bhyve_optparse(int argc, char **argv)
 			break;
 		case 'U':
 			set_config_value("uuid", optarg);
+			break;
+		case 'q':
+			set_config_value("x86.verbosemsr", false);
 			break;
 		case 'w':
 			set_config_bool("x86.strictmsr", false);

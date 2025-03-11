@@ -30,7 +30,7 @@
 .Nd "run a guest operating system inside a virtual machine"
 .Sh SYNOPSIS
 .Nm
-.Op Fl aCDeHhPSuWwxY
+.Op Fl aCDeHhPqSuWwxY
 .Oo
 .Sm off
 .Fl c\~
@@ -295,6 +295,13 @@ To map a 4 vCPU guest to host CPUs 12-15:
 .Bd -literal
 -p 0:12 -p 1:13 -p 2:14 -p 3:15
 .Ed
+.It Fl q
+Disable verbose MSR (Model-Specific Register) print out.
+When this option is enabled, bhyve will suppress messages related to reading
+from (rdmsr) and writing to (wrmsr) MSRs on virtual CPUs.
+This can be useful for reducing log verbosity and preventing the VM console
+from being spammed with informational messages, particularly in environments
+where such messages are not needed for diagnostic purposes.
 .It Fl r Ar file
 Resume a guest from a snapshot.
 The guest memory contents are restored from
