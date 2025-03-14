@@ -75,7 +75,7 @@ bhyve_usage(int code)
 	progname = getprogname();
 
 	fprintf(stderr,
-	    "Usage: %s [-aCDeHhPqSuWwxY]\n"
+	    "Usage: %s [-aCDeHhPSuWwxY]\n"
 	    "       %*s [-c [[cpus=]numcpus][,sockets=n][,cores=n][,threads=n]]\n"
 	    "       %*s [-G port] [-k config_file] [-l lpc] [-m mem] [-o var=value]\n"
 	    "       %*s [-p vcpu:hostcpu] [-r file] [-s pci] [-U uuid] vmname\n"
@@ -117,7 +117,7 @@ bhyve_optparse(int argc, char **argv)
 	int c;
 
 #ifdef BHYVE_SNAPSHOT
-	optstr = "aehuwxACDHIPqSWYk:f:o:p:G:c:s:m:l:K:U:r:";
+	optstr = "aehuwxACDHIPSWYk:f:o:p:G:c:s:m:l:K:U:r:";
 #else
 	optstr = "aehuwxACDHIPSWYk:f:o:p:G:c:s:m:l:K:U:";
 #endif
